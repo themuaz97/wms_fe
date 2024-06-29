@@ -15,7 +15,7 @@ export default {
 
         const name = ref('');
         const email = ref('');
-        const phoneNo = ref('');
+        const phoneNo = ref();
         const nameError = ref(false);
         const emailError = ref(false);
         const phoneNoError = ref(false);
@@ -66,7 +66,7 @@ export default {
                         </div>
                         <div class="field col-12 md:col-12">
                             <label for="TxtEmployeePhoneNo">Contact No.</label>
-                            <InputNumber id="TxtEmployeePhoneNo" v-model="phoneNo" :useGrouping="false" placeholder="01234567890" class="{ 'p-invalid': phoneNoError }" />
+                            <InputNumber id="TxtEmployeePhoneNo" v-model="phoneNo" :useGrouping="false" placeholder="Enter employee contact number" class="{ 'p-invalid': phoneNoError }" />
                             <small v-if="phoneNoError" class="p-error">Contact No. is required</small>
                         </div>
                         <div class="field col-8 md:col-4 mx-auto flex gap-4">

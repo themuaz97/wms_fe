@@ -2,10 +2,11 @@
 import { useRouter } from 'vue-router';
 import EmployeeEditProfile from './EmployeeEditProfile.vue';
 import EmployeeEditEmployment from './EmployeeEditEmployment.vue';
+import EmployeeEarningEdit from './EmployeeEarningEdit.vue';
 
 export default {
     name: 'EmployeeForm',
-    components: { EmployeeEditProfile, EmployeeEditEmployment },
+    components: { EmployeeEditProfile, EmployeeEditEmployment, EmployeeEarningEdit },
     setup() {
         const router = useRouter();
         const saveAgency = () => {
@@ -35,6 +36,9 @@ export default {
                         </TabPanel>
                         <TabPanel header="Employment">
                             <EmployeeEditEmployment />
+                        </TabPanel>
+                        <TabPanel header="Earning">
+                            <EmployeeEarningEdit />
                         </TabPanel>
                     </TabView>
                 </div>

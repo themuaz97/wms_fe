@@ -10,7 +10,8 @@
     border: 1px solid var(--surface-border);
     padding: 2rem;
     margin-bottom: 2rem;
-    box-shadow: var(--card-shadow);
+    box-shadow: -2px 5px 7px rgba(0, 0, 0, 0.02), -2px 5px 7px rgba(0, 0, 0, 0.05), -2px 5px 7px rgba(0, 0, 0, 0.08);
+
     border-radius: $borderRadius;
 
     &:last-child {

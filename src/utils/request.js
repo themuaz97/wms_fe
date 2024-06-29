@@ -6,18 +6,27 @@ export const METHOD = {
     PUT: 'PUT',
     DELETE: 'DELETE'
 };
-export async function request(url, method = METHOD.GET, data = null) {
-    try {
-        const config = {
-            method,
-            url,
-            ...(data && { data }) // Include data in the request if provided
-        };
 
-        const response = await axios(config);
-        return response.data; // Return response data
-    } catch (error) {
-        console.error(`Error making ${method} request to ${url}:`, error);
-        throw error; // Throw error for handling in calling function
+export async function request(url, method = METHOD.GET, params = null, config = {}) {
+    let response;
+
+    switch (method) {
+        case METHOD.GET:
+            response = await axios.get(url, { params, ...config });
+            break;
+        case METHOD.POST:
+            response = await axios.post(url, params, config);
+            break;
+        case METHOD.PUT:
+            response = await axios.put(url, params, config);
+            break;
+        case METHOD.DELETE:
+            response = await axios.delete(url, { ...config });
+            break;
+        default:
+            response = await axios.get(url, { params, ...config });
+            break;
     }
+
+    return response.data; // Return response data
 }

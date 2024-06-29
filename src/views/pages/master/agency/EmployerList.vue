@@ -1,17 +1,19 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import { useRouter } from 'vue-router';
 import { useConfirm } from 'primevue/useconfirm';
 import { useToast } from 'primevue/usetoast';
 import { usePrimeVue } from 'primevue/config';
+import { agencyList } from '@/service/Administration';
 
 const router = useRouter();
 const confirm = useConfirm();
 const toast = useToast();
 const $primevue = usePrimeVue();
 
+const agencies = ref([]);
 const totalSize = ref(0);
 const totalSizePercent = ref(0);
 const files = ref([]);
@@ -22,6 +24,24 @@ const onRemoveTemplatingFile = (file, removeFileCallback, index) => {
     totalSize.value -= parseInt(formatSize(file.size));
     totalSizePercent.value = totalSize.value / 10;
 };
+
+const getAgencyList = async () => {
+    try {
+        const result = await agencyList();
+        // Add runningNumber property to each agency item
+        agencies.value = result.map((item, index) => ({
+            ...item,
+            runningNumber: index + 1
+        }));
+        console.log('Agency list:', agencies.value);
+    } catch (error) {
+        console.error('Failed to fetch agency list:', error);
+    }
+};
+
+onMounted(() => {
+    getAgencyList();
+});
 
 // const onClearTemplatingUpload = (clear) => {
 //     clear();
@@ -80,14 +100,9 @@ const BtnAgencyAdd = () => {
 };
 
 const BtnAgencyEdit = (agency) => {
-    router.push({ name: 'employeredit', params: { DfAgencyID: agency.DfAgencyID } });
+    router.push({ name: 'employeredit', params: { id: agency.id } });
 };
 
-const agencies = ref([
-    { DfAgencyID: 1, DfAgencyName: 'XOX Technology', DfAgencyAddress: 'Petaling Jaya', DfAgencyPhoneNo: '1234567890' },
-    { DfAgencyID: 2, DfAgencyName: 'XOX', DfAgencyAddress: 'Petaling Jaya', DfAgencyPhoneNo: '1234567890' },
-    { DfAgencyID: 3, DfAgencyName: 'ONE XOX', DfAgencyAddress: 'Petaling Jaya', DfAgencyPhoneNo: '1234567890' }
-]);
 </script>
 
 <template>
@@ -158,17 +173,22 @@ const agencies = ref([
                 </div>
 
                 <DataTable class="md:col-12" :value="agencies" paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]">
-                    <Column class="md:col-1" field="DfAgencyID" header="ID" />
-                    <Column class="md:col-4" field="DfAgencyName" header="Name" />
-                    <Column class="md:col-4" field="DfAgencyAddress" header="Address" />
-                    <Column class="md:col-2" field="DfAgencyPhoneNo" header="Phone No" />
+                    <Column class="md:col-1" field="runningNumber" header="ID" />
+                    <Column class="md:col-3" field="agency_name" header="Name" />
+                    <Column class="md:col-4" field="agency_address" header="Address" />
+                    <Column class="md:col-2" field="agency_phone_no" header="Phone No" />
+                    <Column class="md:col-1" field="is_active" header="Active">
+                        <template #body="slotProps">
+                            <i v-if="slotProps.data.is_active" class="pi pi-check" style="color: green;"></i>
+                        </template>
+                    </Column>
                     <Column class="md:col-1" field="action" header="Action" >
                         <template #body="slotProps">
                             <div class="flex justify-content-center">
-                                <Button icon="pi pi-pencil" class="mr-2" severity="primary" v-tooltip.top="'edit'" @click="BtnAgencyEdit(slotProps.data)" />
+                                <Button icon="pi pi-pencil" class="mr-2" severity="primary" v-tooltip.top="'edit'" @click="BtnAgencyEdit(slotProps.data)" rounded />
                                 <Toast />
                                 <ConfirmPopup></ConfirmPopup>
-                                <Button @click="BtnAgencyDelete($event)" icon="pi pi-trash" severity="danger" v-tooltip.top="'delete'"></Button>
+                                <Button @click="BtnAgencyDelete($event)" icon="pi pi-trash" severity="danger" v-tooltip.top="'delete'" rounded></Button>
                             </div>
                         </template>
                     </Column>

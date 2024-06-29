@@ -22,6 +22,9 @@ const selectedPositionlvl = ref('');
 const selectedPositionStatus = ref('');
 const selectedStartJoin = ref('');
 const selectedEndJoin = ref('');
+const selectedAppraisal = ref('');
+const selectedConversion = ref('');
+const pdpa = ref(false);
 const remarks = ref('');
 
 const floorError = ref(false);
@@ -32,6 +35,8 @@ const positionLvlError = ref(false);
 const positionStatusError = ref(false);
 const startJoinError = ref(false);
 const endJoinError = ref(false);
+const appraisalError = ref(false);
+const conversionError = ref(false);
 
 const BtnSaveEmployeeEmployment = () => {
     floorError.value = !selectedFloor.value;
@@ -42,8 +47,21 @@ const BtnSaveEmployeeEmployment = () => {
     positionStatusError.value = !selectedPositionStatus.value;
     startJoinError.value = !selectedStartJoin.value;
     endJoinError.value = !selectedEndJoin.value;
+    appraisalError.value = !selectedAppraisal.value;
+    conversionError.value = !selectedConversion.value;
 
-    if (!floorError.value && !seniorityError.value && !agencyError.value && !positionError.value && !positionLvlError.value && !positionStatusError.value && !startJoinError.value && !endJoinError.value) {
+    if (
+        !floorError.value &&
+        !seniorityError.value &&
+        !agencyError.value &&
+        !positionError.value &&
+        !positionLvlError.value &&
+        !positionStatusError.value &&
+        !startJoinError.value &&
+        !endJoinError.value &&
+        !appraisalError.value &&
+        !conversionError.value
+    ) {
         router.push({ name: 'employeelist' });
     }
 };
@@ -98,6 +116,21 @@ const BtnCancelEmployeeEmployment = () => {
                             <label for="DtEndJoin">End Joining Date</label>
                             <Calendar id="DtEndJoin" dateFormat="dd/mm/yy" v-model="selectedEndJoin" placeholder="End Joining Date" :class="{ 'p-invalid': endJoinError }" />
                             <small v-if="endJoinError" class="p-error">End Joining Date is required</small>
+                        </div>
+                        <div class="field col-12 md:col-12">
+                            <label for="DtConversion">Conversion Date</label>
+                            <Calendar id="DtConversion" dateFormat="dd/mm/yy" v-model="selectedConversion" placeholder="End Joining Date" :class="{ 'p-invalid': endJoinError }" />
+                            <small v-if="conversionError" class="p-error">Conversion Date is required!</small>
+                        </div>
+                        <div class="field col-12 md:col-12">
+                            <label for="DtAppraisal">Appraisal Date</label>
+                            <Calendar id="DtAppraisal" dateFormat="dd/mm/yy" v-model="selectedAppraisal" placeholder="End Joining Date" :class="{ 'p-invalid': endJoinError }" />
+                            <small v-if="appraisalError" class="p-error">Appraisal Date is required!</small>
+                        </div>
+                        <div class="field col-12 md:col-12">
+                            <label for="pdpa">Attend PDPA</label><br />
+                            <InputSwitch v-model="pdpa" /><br />
+                            <!--  <small v-if="pdpaError" class="p-error">End Joining Date is required!</small> -->
                         </div>
                         <div class="field col-12 md:col-12">
                             <label for="TxtEmployeeRemarks">Remarks</label>

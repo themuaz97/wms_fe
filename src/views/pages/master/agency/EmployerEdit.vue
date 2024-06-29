@@ -38,7 +38,7 @@ export default {
                             </div>
                             <div class="field col-12 md:col-12">
                                 <label for="TxtAgencyPhoneNo">Contact No.</label>
-                                <InputMask id="TxtAgencyPhoneNo" mask="(99)-9999999999" placeholder="(60)-1234567890" />
+                                <InputNumber id="TxtAgencyPhoneNo" :useGrouping="false" placeholder="Enter agency contact number" />
                             </div>
                             <div class="field col-8 md:col-4 mx-auto flex gap-4">
                                 <Button type="submit" label="Save" class="w-full" @click="BtnSaveAgency" />

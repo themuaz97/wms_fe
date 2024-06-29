@@ -85,10 +85,15 @@ const saveEditPositionSts = () => {
         <DataTable :value="positionstatus" class="md:col-12" tableStyle="min-width: 50rem">
             <Column class="col-1" field="DfPositionStsID" header="Id"></Column>
             <Column class="col-9" field="DfPositionSts" header="Position Status"></Column>
+            <Column class="md:col-1" field="is_active" header="Active">
+                <template #body="slotProps">
+                    <i v-if="slotProps.data.is_active" class="pi pi-check" style="color: green"></i>
+                </template>
+            </Column>
             <Column class="col-1" field="action" header="Action">
                 <template #body="">
                     <div class="flex justify-content-center">
-                        <Button icon="pi pi-pencil" class="mr-2" severity="primary" v-tooltip.top="'edit'" @click="BtnPositionStsEdit = true" />
+                        <Button icon="pi pi-pencil" class="mr-2" severity="primary" v-tooltip.top="'edit'" @click="BtnPositionStsEdit = true" rounded />
 
                         <Dialog v-model:visible="BtnPositionStsEdit" modal header="Edit Position Status" class="col-6 md:col-4">
                             <div class="flex flex-column gap-3 mb-3">
@@ -103,7 +108,7 @@ const saveEditPositionSts = () => {
                         </Dialog>
                         <Toast />
                         <ConfirmPopup></ConfirmPopup>
-                        <Button @click="BtnPositionStsDelete($event)" icon="pi pi-trash" severity="danger" v-tooltip.top="'delete'"></Button>
+                        <Button @click="BtnPositionStsDelete($event)" icon="pi pi-trash" severity="danger" v-tooltip.top="'delete'" rounded></Button>
                     </div>
                 </template>
             </Column>

@@ -37,7 +37,7 @@ const router = createRouter({
                     component: () => import('@/views/pages/master/agency/EmployerForm.vue')
                 },
                 {
-                    path: '/pages/master/employeredit/:DfAgencyID',
+                    path: '/pages/master/employeredit/:id',
                     name: 'employeredit',
                     component: () => import('@/views/pages/master/agency/EmployerEdit.vue')
                 },
@@ -52,7 +52,7 @@ const router = createRouter({
                     component: () => import('@/views/pages/master/employee/EmployeeForm.vue')
                 },
                 {
-                    path: '/pages/master/employeeedit/:DfEmployeeID',
+                    path: '/pages/master/employeeedit/:id',
                     name: 'employeeedit',
                     component: () => import('@/views/pages/master/employee/EmployeeEdit.vue')
                 },

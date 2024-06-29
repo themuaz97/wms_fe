@@ -1,6 +1,7 @@
 <script setup>
 import EmployeeProfile from './EmployeeProfile.vue';
 import EmployeeEmployment from './EmployeeEmployment.vue';
+import EmployeeEarning from './EmployeeEarning.vue';
 </script>
 
 <template>
@@ -15,6 +16,9 @@ import EmployeeEmployment from './EmployeeEmployment.vue';
                         </TabPanel>
                         <TabPanel header="Employment">
                             <EmployeeEmployment />
+                        </TabPanel>
+                        <TabPanel header="Earning">
+                            <EmployeeEarning />
                         </TabPanel>
                     </TabView>
                 </div>

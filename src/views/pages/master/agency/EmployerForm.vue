@@ -1,12 +1,13 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { agencyCreate } from '@/service/Administration'; // Import agencyCreate function
 
 const router = useRouter();
 
 const agencyName = ref('');
 const agencyAddress = ref('');
-const agencyPhoneNo = ref('');
+const agencyPhoneNo = ref();
 
 const agencyNameError = ref(false);
 const agencyAddressError = ref(false);
@@ -19,10 +20,35 @@ const validate = () => {
     return !agencyNameError.value && !agencyAddressError.value && !agencyPhoneNoError.value;
 };
 
-const BtnAgencyAdd = () => {
-    if (validate()) {
-        // Save the agency details
+const BtnAgencyAdd = async () => {
+    // Validate form inputs
+    if (!validate()) {
+        return;
+    }
+
+    // Prepare agency data
+    const data = {
+        agency_name: agencyName.value,
+        agency_address: agencyAddress.value,
+        agency_phone_no: agencyPhoneNo.value
+    };
+
+    try {
+        // Call agencyCreate API function
+        const result = await agencyCreate(data);
+        // Handle API response as needed
+        console.log('Agency added:', result);
+
+        // Optionally, you can reset form fields after successful submission
+        agencyName.value = '';
+        agencyAddress.value = '';
+        agencyPhoneNo.value = '';
+
+        // Navigate to employerlist route after successful save
         router.push({ name: 'employerlist' });
+    } catch (error) {
+        console.error('Failed to add agency:', error);
+        // Optionally, show a toast or error message here
     }
 };
 
@@ -51,7 +77,7 @@ const BtnCancel = () => {
                             </div>
                             <div class="field col-12 md:col-12">
                                 <label for="TxtAgencyPhoneNo">Contact No.</label>
-                                <InputMask v-model="agencyPhoneNo" id="TxtAgencyPhoneNo" mask="(99)-9999999999" placeholder="(60)-1234567890" />
+                                <InputNumber v-model="agencyPhoneNo" id="TxtAgencyPhoneNo" :useGrouping="false" placeholder="Enter Agency Contact No" />
                                 <small v-if="agencyPhoneNoError" class="p-error">Agency contact no. is required!</small>
                             </div>
                             <div class="field col-8 md:col-4 mx-auto flex gap-4">
@@ -65,3 +91,7 @@ const BtnCancel = () => {
         </div>
     </div>
 </template>
+
+<style scoped>
+/* Add scoped styles here if needed */
+</style>

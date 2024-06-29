@@ -1,21 +1,41 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import { useRouter } from 'vue-router';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import { usePrimeVue } from 'primevue/config';
+import { employeeList } from '../../../../service/Administration';
 
 const router = useRouter();
 const confirm = useConfirm();
 const toast = useToast();
 const $primevue = usePrimeVue();
 
+const employees = ref([]);
 const totalSize = ref(0);
 const totalSizePercent = ref(0);
 const files = ref([]);
 const BtnEmployeeImport = ref(false);
+
+const getEmployeeList = async () => {
+    try {
+        const result = await employeeList();
+        // Add runningNumber property to each employee item
+        employees.value = result.map((item, index) => ({
+            ...item,
+            runningNumber: index + 1
+        }));
+        console.log('Employee list:', employees.value);
+    } catch (error) {
+        console.error('Failed to fetch employee list:', error);
+    }
+};
+
+onMounted(() => {
+    getEmployeeList();
+});
 
 const onRemoveTemplatingFile = (file, removeFileCallback, index) => {
     removeFileCallback(index);
@@ -80,22 +100,9 @@ const BtnEmployeeAdd = () => {
 };
 
 const BtnEmployeeEdit = (employee) => {
-    router.push({ name: 'employeeedit', params: { DfEmployeeID: employee.DfEmployeeID } });
+    router.push({ name: 'employeeedit', params: { id: employee.id } });
 };
 
-const agencies = ref([
-    { DfEmployeeID: 1, DfEmployeeName: 'Suffian Bin Arifen', DfEmployeeEmail: 'suffian@xox.com.my', DfEmployeePhoneNo: '1234567890', DfEmployeeAgency: 'xox', DfEmployeePosition: 'Manager/OM', DfEmployeeYOW: '9 years, 5 months' },
-    {
-        DfEmployeeID: 2,
-        DfEmployeeName: 'Syahrul Nizam bin Kamaruzaman',
-        DfEmployeeEmail: 'syahrul.nizam@xox.com.my',
-        DfEmployeePhoneNo: '1234567890',
-        DfEmployeeAgency: 'xox',
-        DfEmployeePosition: 'Asst Manager/PM',
-        DfEmployeeYOW: '3 years, 4 months'
-    },
-    { DfEmployeeID: 3, DfEmployeeName: 'Lim Han Kit', DfEmployeeEmail: 'hk.lim@xox.com.my', DfEmployeePhoneNo: '1234567890', DfEmployeeAgency: 'xox', DfEmployeePosition: 'Asst Manager', DfEmployeeYOW: '6 years, 11 months' }
-]);
 </script>
 
 <template>
@@ -168,21 +175,26 @@ const agencies = ref([
                     </div>
                 </div>
 
-                <DataTable class="col-12 md:col-12" :value="agencies" paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]">
-                    <Column class="col-1" field="DfEmployeeID" header="ID" />
-                    <Column class="col-2" field="DfEmployeeName" header="Name" />
-                    <Column class="col-2" field="DfEmployeeEmail" header="Email" />
-                    <Column class="col-1" field="DfEmployeePhoneNo" header="Phone No" />
-                    <Column class="col-1" field="DfEmployeeAgency" header="Agency" />
-                    <Column class="col-2" field="DfEmployeePosition" header="Position" />
-                    <Column class="col-2" field="DfEmployeeYOW" header="Year of Working" />
+                <DataTable class="col-12 md:col-12" :value="employees" paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]">
+                    <Column class="col-1" field="runningNumber" header="ID" />
+                    <Column class="col-2" field="employee_name" header="Name" />
+                    <Column class="col-2" field="employee_email" header="Email" />
+                    <Column class="col-1" field="employee_phone_no" header="Phone No" />
+                    <Column class="col-1" field="employee_agency" header="Agency" />
+                    <Column class="col-2" field="employee_position" header="Position" />
+                    <Column class="col-2" field="employee_yow" header="Year of Working" />
+                    <Column class="md:col-1/2" field="is_active" header="Active">
+                        <template #body="slotProps">
+                            <i v-if="slotProps.data.is_active" class="pi pi-check" style="color: green;"></i>
+                        </template>
+                    </Column>
                     <Column class="col-1" field="action" header="Action">
                         <template #body="slotProps">
                             <div class="flex justify-content-center">
-                                <Button icon="pi pi-pencil" class="mr-2" severity="primary"  v-tooltip.top="'edit'" @click="BtnEmployeeEdit(slotProps.data)" />
+                                <Button icon="pi pi-pencil" class="mr-2" severity="primary"  v-tooltip.top="'edit'" @click="BtnEmployeeEdit(slotProps.data)" rounded />
                                 <Toast />
                                 <ConfirmPopup />
-                                <Button @click="BtnEmployeeDelete($event)" icon="pi pi-trash" severity="danger"  v-tooltip.top="'delete'"></Button>
+                                <Button @click="BtnEmployeeDelete($event)" icon="pi pi-trash" severity="danger"  v-tooltip.top="'delete'" rounded></Button>
                             </div>
                         </template>
                     </Column>

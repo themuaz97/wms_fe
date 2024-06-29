@@ -61,16 +61,16 @@ const isOutsideClicked = (event) => {
             <img :src="logoUrl" alt="logo" />
         </router-link>
 
-        <button class="p-link layout-menu-button layout-topbar-button" @click="onMenuToggle()">
+        <button class="p-link layout-menu-button layout-topbar-button" @click="onMenuToggle()" v-tooltip.right="'menu bar'">
             <i class="pi pi-bars"></i>
         </button>
 
-        <button class="p-link layout-topbar-menu-button layout-topbar-button" @click="onTopBarMenuButton()">
+        <button class="p-link layout-topbar-menu-button layout-topbar-button" @click="onTopBarMenuButton()" v-tooltip.left="'Option'">
             <i class="pi pi-ellipsis-v"></i>
         </button>
 
         <div class="layout-topbar-menu" :class="topbarMenuClasses">
-            <button @click="onTopBarMenuButton()" class="p-link layout-topbar-button">
+            <button @click="onTopBarMenuButton()" class="p-link layout-topbar-button" v-tooltip.left="'Profile'">
                 <i class="pi pi-user"></i>
                 <span>Profile</span>
             </button>

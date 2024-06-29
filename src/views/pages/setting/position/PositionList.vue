@@ -84,10 +84,15 @@ const saveEditPosition = () => {
         <DataTable :value="positions" class="md:col-12" tableStyle="min-width: 50rem">
             <Column class="col-1" field="DfPositionID" header="Id"></Column>
             <Column class="col-9" field="DfPosition" header="Position"></Column>
+            <Column class="md:col-1" field="is_active" header="Active">
+                <template #body="slotProps">
+                    <i v-if="slotProps.data.is_active" class="pi pi-check" style="color: green"></i>
+                </template>
+            </Column>
             <Column class="col-1" field="action" header="Action">
                 <template #body="">
                     <div class="flex justify-content-center">
-                        <Button icon="pi pi-pencil" class="mr-2" severity="primary" v-tooltip.top="'edit'" @click="BtnPositionEdit = true" />
+                        <Button icon="pi pi-pencil" class="mr-2" severity="primary" v-tooltip.top="'edit'" @click="BtnPositionEdit = true" rounded />
 
                         <Dialog v-model:visible="BtnPositionEdit" modal header="Edit Position" class="col-6 md:col-4">
                             <div class="flex flex-column gap-3 mb-3">
@@ -102,7 +107,7 @@ const saveEditPosition = () => {
                         </Dialog>
                         <Toast />
                         <ConfirmPopup></ConfirmPopup>
-                        <Button @click="BtnPositionDelete($event)" icon="pi pi-trash" severity="danger" v-tooltip.top="'delete'"></Button>
+                        <Button @click="BtnPositionDelete($event)" icon="pi pi-trash" severity="danger" v-tooltip.top="'delete'" rounded></Button>
                     </div>
                 </template>
             </Column>
