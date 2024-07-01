@@ -130,7 +130,7 @@ const BtnCancelEmployeeEmployment = () => {
                         </div>
                         <div class="field col-12 md:col-12">
                             <label for="pdpa" class="mr-2">Attend PDPA</label>
-                            <InputSwitch v-model="pdpa" class="pt-2 " /><br />
+                            <InputSwitch v-model="pdpa" class="pt-2" /><br />
                             <!--  <small v-if="pdpaError" class="p-error">End Joining Date is required!</small> -->
                         </div>
                         <div class="field col-12 md:col-12">

@@ -1,6 +1,8 @@
 <script setup>
+import { FilterMatchMode } from 'primevue/api';
 import { useConfirm } from 'primevue/useconfirm';
 import { useToast } from 'primevue/usetoast';
+import { onMounted } from 'vue';
 import { ref } from 'vue';
 
 const confirm = useConfirm();
@@ -23,6 +25,20 @@ const positionlvls = ref([
         DfPositionLvl: 'Executive'
     }
 ]);
+
+const isMobileView = ref(window.innerWidth < 991);
+
+const onResize = () => {
+    isMobileView.value = window.innerWidth < 991;
+};
+
+onMounted(() => {
+    window.addEventListener('resize', onResize);
+});
+
+const filters = ref({
+    is_active: { value: null, matchMode: FilterMatchMode.EQUALS }
+});
 
 const BtnPositionLvlDelete = (event) => {
     confirm.require({
@@ -67,8 +83,11 @@ const saveEditPositionLvl = () => {
 
 <template>
     <div class="card">
-        <div class="flex justify-content-end mb-3">
+        <div v-if="!isMobileView" class="flex justify-content-end mb-3">
             <Button icon="pi pi-plus" label="Add Position Level" @click="BtnPositionLvlAdd = true" />
+        </div>
+        <div v-else class="flex justify-content-end mb-3">
+            <Button icon="pi pi-plus" class="ml-auto" @click="BtnPositionLvlAdd = true" v-tooltip.top="'Add Position Level'"  />
         </div>
         <Dialog v-model:visible="BtnPositionLvlAdd" modal header="Add Position Level" class="col-6 md:col-4">
             <div class="flex flex-column gap-3 mb-3">
@@ -81,12 +100,15 @@ const saveEditPositionLvl = () => {
                 <Button type="button" label="Save" @click="saveNewPositionLvl"></Button>
             </div>
         </Dialog>
-        <DataTable :value="positionlvls" class="md:col-12" tableStyle="min-width: 50rem">
+        <DataTable v-model:filters="filters" filterDisplay="menu" :value="positionlvls" class="md:col-12" tableStyle="min-width: 50rem">
             <Column class="col-1" field="DfPositionLvlLvlID" header="Id"></Column>
             <Column class="col-9" field="DfPositionLvl" header="Position Level"></Column>
-            <Column class="md:col-1" field="is_active" header="Active">
-                <template #body="slotProps">
-                    <i v-if="slotProps.data.is_active" class="pi pi-check" style="color: green"></i>
+            <Column class="md:col-1" field="is_active" dataType="boolean" header="Active">
+                <template #body="{ data }">
+                    <i class="pi" :class="{ 'pi-check-circle text-green-500': data.verified, 'pi-times-circle text-red-400': !data.verified }"></i>
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <TriStateCheckbox v-model="filterModel.value" @change="filterCallback()" />
                 </template>
             </Column>
             <Column class="col-1" field="action" header="Action">

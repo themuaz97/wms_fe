@@ -1,7 +1,8 @@
 <script setup>
+import { FilterMatchMode } from 'primevue/api';
 import { useConfirm } from 'primevue/useconfirm';
 import { useToast } from 'primevue/usetoast';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const confirm = useConfirm();
 const toast = useToast();
@@ -12,8 +13,18 @@ const floorError = ref(false); // Flag to track if floor input is empty for addi
 const editFloorError = ref(false); // Flag to track if floor input is empty for editing
 
 const DFfloor = ref('');
-const editFloor = ref(''); // Model for edit floor input
-const selectedFloor = ref(null); // Track the selected floor for editing
+const editFloor = ref('');
+const selectedFloor = ref(null);
+
+const isMobileView = ref(window.innerWidth < 991);
+
+const onResize = () => {
+    isMobileView.value = window.innerWidth < 991;
+};
+
+onMounted(() => {
+    window.addEventListener('resize', onResize);
+});
 
 const floors = ref([
     {
@@ -25,6 +36,10 @@ const floors = ref([
         DfFloor: 'Work From Home'
     }
 ]);
+
+const filters = ref({
+    is_active: { value: null, matchMode: FilterMatchMode.EQUALS }
+});
 
 const BtnFloorAddSave = () => {
     floorError.value = !DFfloor.value.trim();
@@ -71,8 +86,11 @@ const openEditDialog = (floor) => {
 
 <template>
     <div class="card">
-        <div class="flex justify-content-end mb-3">
+        <div v-if="!isMobileView" class="flex justify-content-end mb-3">
             <Button icon="pi pi-plus" label="Add Floor" @click="BtnFloorAdd = true" />
+        </div>
+        <div v-else class="flex justify-content-end mb-3">
+            <Button icon="pi pi-plus" class="ml-auto" @click="BtnFloorAdd = true" v-tooltip.top="'Add Floor'" />
         </div>
         <Dialog v-model:visible="BtnFloorAdd" modal header="Add Floor" class="col-6 md:col-4">
             <div class="flex flex-column gap-3 mb-3">
@@ -86,18 +104,21 @@ const openEditDialog = (floor) => {
             </div>
         </Dialog>
 
-        <DataTable :value="floors" class="md:col-12" tableStyle="min-width: 50rem">
+        <DataTable v-model:filters="filters" filterDisplay="menu" :value="floors" class="md:col-12" tableStyle="min-width: 50rem">
             <Column class="col-1" field="DfFloorID" header="Id"></Column>
             <Column class="col-9" field="DfFloor" header="Floor"></Column>
-            <Column class="md:col-1" field="is_active" header="Active">
-                <template #body="slotProps">
-                    <i v-if="slotProps.data.is_active" class="pi pi-check" style="color: green"></i>
+            <Column class="md:col-1" field="is_active" dataType="boolean" header="Active">
+                <template #body="{ data }">
+                    <i class="pi" :class="{ 'pi-check-circle text-green-500': data.verified, 'pi-times-circle text-red-400': !data.verified }"></i>
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <TriStateCheckbox v-model="filterModel.value" @change="filterCallback()" />
                 </template>
             </Column>
             <Column class="col-1" field="action" header="Action">
                 <template #body="{ data }">
                     <div class="flex justify-content-center">
-                        <Button icon="pi pi-pencil" class="mr-2" severity="primary" v-tooltip.top="'edit'" @click="openEditDialog(data)" rounded/>
+                        <Button icon="pi pi-pencil" class="mr-2" severity="primary" v-tooltip.top="'edit'" @click="openEditDialog(data)" rounded />
                         <Dialog v-model:visible="BtnFloorEdit" modal header="Edit Floor" class="col-6 md:col-4">
                             <div class="flex flex-column gap-3 mb-3">
                                 <label for="DfFloorEdit" class="font-semibold w-6rem">Floor</label>

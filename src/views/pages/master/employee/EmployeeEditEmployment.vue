@@ -128,8 +128,8 @@ const BtnCancelEmployeeEmployment = () => {
                             <small v-if="appraisalError" class="p-error">Appraisal Date is required!</small>
                         </div>
                         <div class="field col-12 md:col-12">
-                            <label for="pdpa">Attend PDPA</label><br />
-                            <InputSwitch v-model="pdpa" /><br />
+                            <label for="pdpa" class="mr-2">Attend PDPA</label>
+                            <InputSwitch v-model="pdpa" class="pt-2" /><br />
                             <!--  <small v-if="pdpaError" class="p-error">End Joining Date is required!</small> -->
                         </div>
                         <div class="field col-12 md:col-12">
@@ -150,5 +150,10 @@ const BtnCancelEmployeeEmployment = () => {
 <style scoped>
 .p-invalid {
     border-color: var(--red-500);
+}
+
+.field .p-inputswitch {
+    display: inline-block; /* Ensures InputSwitch is displayed inline */
+    vertical-align: middle; /* Aligns InputSwitch vertically with label */
 }
 </style>

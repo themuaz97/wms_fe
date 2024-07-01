@@ -7,7 +7,7 @@ const router = useRouter();
 
 const agencyName = ref('');
 const agencyAddress = ref('');
-const agencyPhoneNo = ref();
+const agencyPhoneNo = ref('');
 
 const agencyNameError = ref(false);
 const agencyAddressError = ref(false);
@@ -63,9 +63,9 @@ const BtnCancel = () => {
             <div class="card">
                 <div class="col-12 md:col-12">
                     <h5>Add Agency</h5>
-                    <div class="p-fluid formgrid grid">
-                        <div class="field col-10 md:col-8 justify-center mx-auto max-w-lg">
-                            <div class="field col-12 md:col-12">
+                    <div class="p-fluid formgrid grid flex justify-content-center">
+                        <div class="field col-12 md:col-8">
+                            <div class="field col-12">
                                 <label for="TxtAgencyName">Name</label>
                                 <InputText v-model="agencyName" id="TxtAgencyName" type="text" placeholder="Enter agency name" />
                                 <small v-if="agencyNameError" class="p-error">Agency name is required!</small>
@@ -75,14 +75,14 @@ const BtnCancel = () => {
                                 <Textarea v-model="agencyAddress" id="TxtAgencyAddress" placeholder="Enter agency address" rows="4" />
                                 <small v-if="agencyAddressError" class="p-error">Agency address is required!</small>
                             </div>
-                            <div class="field col-12 md:col-12">
+                            <div class="field col-12">
                                 <label for="TxtAgencyPhoneNo">Contact No.</label>
                                 <InputNumber v-model="agencyPhoneNo" id="TxtAgencyPhoneNo" :useGrouping="false" placeholder="Enter Agency Contact No" />
                                 <small v-if="agencyPhoneNoError" class="p-error">Agency contact no. is required!</small>
                             </div>
-                            <div class="field col-8 md:col-4 mx-auto flex gap-4">
-                                <Button type="submit" label="Save" class="w-full" @click="BtnAgencyAdd" />
-                                <Button type="button" severity="secondary" label="Cancel" class="w-full" @click="BtnCancel" />
+                            <div class="col-12 flex justify-content-center py-3 gap-2 button-group">
+                                <Button label="Save" class="col-3 md:col-3 py-2" @click="BtnAgencyAdd" />
+                                <Button severity="secondary" label="Cancel" class="col-3 md:col-3 py-2" @click="BtnCancel" />
                             </div>
                         </div>
                     </div>
@@ -93,5 +93,20 @@ const BtnCancel = () => {
 </template>
 
 <style scoped>
-/* Add scoped styles here if needed */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+@media (max-width: 500px) {
+    .button-group {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .button-group .p-button {
+        width: 100%;
+    }
+}
 </style>
