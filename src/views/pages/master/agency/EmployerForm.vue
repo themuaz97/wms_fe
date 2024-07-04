@@ -7,7 +7,7 @@ const router = useRouter();
 
 const agencyName = ref('');
 const agencyAddress = ref('');
-const agencyPhoneNo = ref('');
+const agencyPhoneNo = ref();
 
 const agencyNameError = ref(false);
 const agencyAddressError = ref(false);
@@ -67,17 +67,17 @@ const BtnCancel = () => {
                         <div class="field col-12 md:col-8">
                             <div class="field col-12">
                                 <label for="TxtAgencyName">Name</label>
-                                <InputText v-model="agencyName" id="TxtAgencyName" type="text" placeholder="Enter agency name" />
+                                <InputText v-model="agencyName" id="TxtAgencyName" type="text" placeholder="Enter agency name" :class="{ 'p-invalid': agencyNameError }" />
                                 <small v-if="agencyNameError" class="p-error">Agency name is required!</small>
                             </div>
                             <div class="field col-12">
                                 <label for="TxtAgencyAddress">Address</label>
-                                <Textarea v-model="agencyAddress" id="TxtAgencyAddress" placeholder="Enter agency address" rows="4" />
+                                <Textarea v-model="agencyAddress" id="TxtAgencyAddress" placeholder="Enter agency address" rows="4" autoResize :class="{ 'p-invalid': agencyAddressError }" />
                                 <small v-if="agencyAddressError" class="p-error">Agency address is required!</small>
                             </div>
                             <div class="field col-12">
                                 <label for="TxtAgencyPhoneNo">Contact No.</label>
-                                <InputNumber v-model="agencyPhoneNo" id="TxtAgencyPhoneNo" :useGrouping="false" placeholder="Enter Agency Contact No" />
+                                <InputNumber v-model="agencyPhoneNo" id="TxtAgencyPhoneNo" :useGrouping="false" placeholder="Enter Agency Contact No" :class="{ 'p-invalid': agencyPhoneNoError }" />
                                 <small v-if="agencyPhoneNoError" class="p-error">Agency contact no. is required!</small>
                             </div>
                             <div class="col-12 flex justify-content-center py-3 gap-2 button-group">

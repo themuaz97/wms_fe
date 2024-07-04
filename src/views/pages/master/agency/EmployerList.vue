@@ -101,12 +101,12 @@ const formatSize = (bytes) => {
 const BtnAgencyDelete = (event) => {
     confirm.require({
         target: event.currentTarget,
-        message: 'Do you want to delete this record?',
+        message: 'Do you want to deactivate this record?',
         icon: 'pi pi-info-circle',
         rejectClass: 'p-button-secondary p-button-outlined p-button-sm',
         acceptClass: 'p-button-danger p-button-sm',
         rejectLabel: 'Cancel',
-        acceptLabel: 'Delete',
+        acceptLabel: 'deactivate',
         accept: () => {
             toast.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted', life: 3000 });
         }
@@ -151,7 +151,7 @@ const menuItems = [
                     </div>
                     <div v-else>
                         <Menu :model="menuItems" popup ref="menu" />
-                        <Button icon="p-link pi pi-ellipsis-v" class="ml-auto" severity="secondary" @click="$refs.menu.toggle($event)" link/>
+                        <Button icon="p-link pi pi-ellipsis-v" class="ml-auto" severity="secondary" @click="$refs.menu.toggle($event)" link />
                     </div>
                 </div>
 
@@ -210,7 +210,7 @@ const menuItems = [
                     <Column class="md:col-3" field="agency_name" header="Name" />
                     <Column class="md:col-4" field="agency_address" header="Address" />
                     <Column class="md:col-2" field="agency_phone_no" header="Phone No" />
-                    <Column class="md:col-1 text-center" field="is_active" header="Active" dataType="boolean">
+                    <Column class="md:col-1" field="is_active" header="Active" dataType="boolean" bodyClass="text-center">
                         <template #body="{ data }">
                             <i class="pi" :class="{ 'pi-check-circle text-green-500': data.verified, 'pi-times-circle text-red-400': !data.verified }"></i>
                         </template>
@@ -224,7 +224,7 @@ const menuItems = [
                                 <Button icon="pi pi-pencil" class="mr-2" severity="primary" v-tooltip.top="'edit'" @click="BtnAgencyEdit(slotProps.data)" rounded />
                                 <Toast />
                                 <ConfirmPopup></ConfirmPopup>
-                                <Button @click="BtnAgencyDelete($event)" icon="pi pi-trash" severity="danger" v-tooltip.top="'delete'" rounded></Button>
+                                <Button @click="BtnAgencyDelete($event)" icon="pi pi-trash" severity="danger" v-tooltip.top="'deactivate'" rounded></Button>
                             </div>
                         </template>
                     </Column>

@@ -27,6 +27,11 @@ const model = ref([
                         to: '/pages/master/employeelist'
                     }
                 ]
+            },
+            {
+                label: 'User Access',
+                icon: 'pi pi-fw pi-user',
+                to: '/pages/useraccess/useraccesslist'
             }
         ]
     },
@@ -36,14 +41,23 @@ const model = ref([
             {
                 label: 'Setup',
                 icon: 'pi pi-fw pi-cog',
-                to: '/pages/setting',
-                badge: 'NEW'
+                to: '/pages/setting/setup',
+            },
+            {
+                label: 'User Setup',
+                icon: 'pi pi-fw pi-user',
+                to: '/pages/setting/usersetup'
             }
         ]
     },
     {
         label: 'References',
         items: [
+            {
+                label: 'Password Reset',
+                icon: 'pi pi-fw pi-key',
+                to: '/auth/passwordreset'
+            },
             {
                 label: 'Form Layout',
                 icon: 'pi pi-fw pi-id-card',

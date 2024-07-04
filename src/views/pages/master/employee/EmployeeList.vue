@@ -20,7 +20,7 @@ const totalSizePercent = ref(0);
 const files = ref([]);
 const BtnEmployeeImport = ref(false);
 
-const isMobileView = ref(window.innerWidth < 991);
+const isMobileView = ref(window.innerWid991);
 
 const onResize = () => {
     isMobileView.value = window.innerWidth < 991;
@@ -210,15 +210,15 @@ const menuItems = [
                     </FileUpload>
                 </Dialog>
 
-                <DataTable class="col-12 md:col-12" v-model:filters="filters" filterDisplay="menu" :value="employees" :paginator="true" :rows="10" scrollable>
-                    <Column class="col-1/2" field="runningNumber" header="ID" />
-                    <Column class="col-3" field="employee_name" header="Name" />
-                    <Column class="col-2" field="employee_email" header="Email" />
-                    <Column class="col-1" field="employee_phone_no" header="Phone No" />
-                    <Column class="col-1" field="employee_agency" header="Agency" />
-                    <Column class="col-2" field="employee_position" header="Position" />
-                    <Column class="col-2" field="employee_yow" header="Year of Working" />
-                    <Column class="md:col-1/2" field="is_active" dataType="boolean" header="Active">
+                <DataTable v-model:filters="filters" filterDisplay="menu" :value="employees" :paginator="true" :rows="10" scrollable>
+                    <Column class="" field="runningNumber" header="ID" />
+                    <Column class="" field="employee_name" header="Name" style="min-width: 200px" />
+                    <Column class="" field="employee_email" header="Email" style="min-width: 200px" />
+                    <Column class="" field="employee_phone_no" header="Phone No" style="min-width: 100px" />
+                    <Column class="" field="employee_agency" header="Agency" style="min-width: 100px" />
+                    <Column class="" field="employee_position" header="Position" style="min-width: 100px" />
+                    <Column class="" field="employee_yow" header="Year of Working" style="min-width: 200px" />
+                    <Column class="text-center" field="is_active" dataType="boolean" header="Active">
                         <template #body="{ data }">
                             <i class="pi" :class="{ 'pi-check-circle text-green-500': data.verified, 'pi-times-circle text-red-400': !data.verified }"></i>
                         </template>
@@ -226,7 +226,7 @@ const menuItems = [
                             <TriStateCheckbox v-model="filterModel.value" @change="filterCallback()" />
                         </template>
                     </Column>
-                    <Column class="col-1" field="action" header="Action">
+                    <Column class="" field="action" header="Action" frozen alignFrozen="right">
                         <template #body="slotProps">
                             <div class="flex justify-content-center">
                                 <Button icon="pi pi-pencil" class="mr-2" severity="primary" v-tooltip.top="'edit'" @click="BtnEmployeeEdit(slotProps.data)" rounded />

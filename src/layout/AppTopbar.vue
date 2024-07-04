@@ -1,11 +1,38 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useLayout } from '@/layout/composables/layout';
+import router from '../router';
 
 const { layoutConfig, onMenuToggle } = useLayout();
 
 const outsideClickListener = ref(null);
 const topbarMenuActive = ref(false);
+
+const BtnSignOut = () => {
+    router.push({ name: 'login' });
+};
+
+const menu = ref();
+const items = ref([
+    {
+        label: 'Manage Profile',
+        icon: 'pi pi-user',
+        command: () => {
+            router.push({ name: 'profile' });
+        }
+    },
+    {
+        label: 'Sign Out',
+        icon: 'pi pi-sign-out',
+        command: () => {
+            BtnSignOut();
+        }
+    }
+]);
+
+const toggle = (event) => {
+    menu.value.toggle(event);
+};
 
 onMounted(() => {
     bindOutsideClickListener();
@@ -18,10 +45,6 @@ onBeforeUnmount(() => {
 const logoUrl = computed(() => {
     return `/layout/images/${layoutConfig.darkTheme.value ? 'logo-dark' : 'logo-dark'}.svg`;
 });
-
-const onTopBarMenuButton = () => {
-    topbarMenuActive.value = !topbarMenuActive.value;
-};
 
 const topbarMenuClasses = computed(() => {
     return {
@@ -65,15 +88,16 @@ const isOutsideClicked = (event) => {
             <i class="pi pi-bars"></i>
         </button>
 
-        <button class="p-link layout-topbar-menu-button layout-topbar-button" @click="onTopBarMenuButton()" v-tooltip.left="'Option'">
-            <i class="pi pi-ellipsis-v"></i>
+        <button class="p-link layout-topbar-menu-button" @click="toggle" v-tooltip.left="'Option'">
+            <Avatar label="MR" shape="circle" />
         </button>
 
         <div class="layout-topbar-menu" :class="topbarMenuClasses">
-            <button @click="onTopBarMenuButton()" class="p-link layout-topbar-button" v-tooltip.left="'Profile'">
-                <i class="pi pi-user"></i>
-                <span>Profile</span>
+            <span class="flex align-items-center mr-2" id="TxtUserName">Muaz Rahman</span>
+            <button @click="toggle" class="p-link" v-tooltip.left="'profile'">
+                <Avatar label="MR" shape="circle" />
             </button>
+            <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
         </div>
     </div>
 </template>

@@ -2,14 +2,19 @@
 import { useLayout } from '@/layout/composables/layout';
 import { ref, computed } from 'vue';
 import AppConfig from '@/layout/AppConfig.vue';
+import router from '../../../router';
 
 const { layoutConfig } = useLayout();
 const email = ref('');
 const password = ref('');
 const checked = ref(false);
 
+const BtnForgotPassword = () => {
+    router.push({ name: 'forgotpassword' });
+};
+
 const logoUrl = computed(() => {
-    return `/layout/images/${layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'}.svg`;
+    return `/layout/images/${layoutConfig.darkTheme.value ? 'logo-dark' : 'logo-dark'}.svg`;
 });
 </script>
 
@@ -20,8 +25,8 @@ const logoUrl = computed(() => {
             <div style="border-radius: 56px; padding: 0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)">
                 <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius: 53px">
                     <div class="text-center mb-5">
-                        <img src="/demo/images/login/avatar.png" alt="Image" height="50" class="mb-3" />
-                        <div class="text-900 text-3xl font-medium mb-3">Welcome, Isabel!</div>
+                        <!-- <img src="/demo/images/login/avatar.png" alt="Image" height="50" class="mb-3" /> -->
+                        <div class="text-900 text-3xl font-medium mb-3">Welcome, Muaz!</div>
                         <span class="text-600 font-medium">Sign in to continue</span>
                     </div>
 
@@ -37,9 +42,9 @@ const logoUrl = computed(() => {
                                 <Checkbox v-model="checked" id="rememberme1" binary class="mr-2"></Checkbox>
                                 <label for="rememberme1">Remember me</label>
                             </div>
-                            <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)">Forgot password?</a>
+                            <Button class="font-medium ml-2 text-right pr-0 cursor-pointer" label="Forgot password?" @click="BtnForgotPassword" style="color: var(--primary-color)" link />
                         </div>
-                        <Button label="Sign In" class="w-full p-3 text-xl"></Button>
+                        <Button label="Sign In" class="w-full p-3 text-xl" @click="router.push({ name: 'dashboard' })"></Button>
                     </div>
                 </div>
             </div>

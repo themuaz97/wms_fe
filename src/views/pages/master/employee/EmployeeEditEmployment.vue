@@ -119,14 +119,14 @@ const BtnCancelEmployeeEmployment = () => {
                         </div>
                         <div class="field col-12 md:col-12">
                             <label for="DtConversion">Conversion Date</label>
-                            <Calendar id="DtConversion" dateFormat="dd/mm/yy" v-model="selectedConversion" placeholder="End Joining Date" :class="{ 'p-invalid': endJoinError }" />
+                            <Calendar id="DtConversion" dateFormat="dd/mm/yy" v-model="selectedConversion" placeholder="Conversion Date" :class="{ 'p-invalid': conversionError }" />
                             <small v-if="conversionError" class="p-error">Conversion Date is required!</small>
                         </div>
-                        <div class="field col-12 md:col-12">
+                        <!--<div class="field col-12 md:col-12">
                             <label for="DtAppraisal">Appraisal Date</label>
-                            <Calendar id="DtAppraisal" dateFormat="dd/mm/yy" v-model="selectedAppraisal" placeholder="End Joining Date" :class="{ 'p-invalid': endJoinError }" />
+                            <Calendar id="DtAppraisal" dateFormat="dd/mm/yy" v-model="selectedAppraisal" placeholder="Appraisal Date" :class="{ 'p-invalid': appraisalError }" />
                             <small v-if="appraisalError" class="p-error">Appraisal Date is required!</small>
-                        </div>
+                        </div> -->
                         <div class="field col-12 md:col-12">
                             <label for="pdpa" class="mr-2">Attend PDPA</label>
                             <InputSwitch v-model="pdpa" class="pt-2" /><br />

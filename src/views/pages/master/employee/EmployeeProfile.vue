@@ -47,7 +47,7 @@ const BtnCancelEmployeeProfile = () => {
                         </div>
                         <div class="field col-12 md:col-12">
                             <label for="TxtEmployeeICNo">IC No.</label>
-                            <InputText id="TxtEmployeeICNo" type="text" v-model="icNo" placeholder="Enter IC No." :class="{ 'p-invalid': icNoError }" />
+                            <InputMask id="TxtEmployeeICNo" mask="999999-99-9999" v-model="icNo" placeholder="Enter IC No." v-tooltip.right="'Ex : 999999-99-9999'" :class="{ 'p-invalid': icNoError }" />
                             <small v-if="icNoError" class="p-error">IC No. is required!</small>
                         </div>
                         <div class="field col-12">

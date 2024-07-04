@@ -15,16 +15,14 @@ const router = createRouter({
                     component: () => import('@/views/Dashboard.vue')
                 },
                 {
+                    path: '/profile',
+                    name: 'profile',
+                    component: () => import('@/views/pages/profile/Profile.vue')
+                },
+                {
                     path: '/pages/master',
                     name: 'masterdetail',
-                    component: AppMenuItem,
-                    children: [
-                        {
-                            path: '/employerlist',
-                            name: 'employerlist',
-                            component: () => import('@/views/pages/master/EmployerList.vue')
-                        }
-                    ]
+                    component: AppMenuItem
                 },
                 {
                     path: '/pages/master/employerlist',
@@ -57,34 +55,29 @@ const router = createRouter({
                     component: () => import('@/views/pages/master/employee/EmployeeEdit.vue')
                 },
                 {
-                    path: '/pages/setting',
+                    path: '/pages/useraccess/useraccesslist',
+                    name: 'useraccesslist',
+                    component: () => import('@/views/pages/useraccess/UserAccessList.vue')
+                },
+                {
+                    path: '/pages/useraccess/add',
+                    name: 'useraccessform',
+                    component: () => import('@/views/pages/useraccess/UserAccessForm.vue')
+                },
+                {
+                    path: '/pages/useraccess/edit/:id',
+                    name: 'useraccessedit',
+                    component: () => import('@/views/pages/useraccess/UserAccessFormEdit.vue')
+                },
+                {
+                    path: '/pages/setting/setup',
                     name: 'setuptab',
                     component: () => import('@/views/pages/setting/SetupTab.vue')
                 },
                 {
-                    path: '/pages/setting/floor',
-                    name: 'floor',
-                    component: () => import('@/views/pages/setting/floor/FloorList.vue')
-                },
-                {
-                    path: '/pages/setting/seniority',
-                    name: 'seniority',
-                    component: () => import('@/views/pages/setting/seniority/SeniorityList.vue')
-                },
-                {
-                    path: '/pages/setting/floor',
-                    name: 'floor',
-                    component: () => import('@/views/pages/setting/FloorList.vue')
-                },
-                {
-                    path: '/pages/setting/floor',
-                    name: 'floor',
-                    component: () => import('@/views/pages/setting/FloorList.vue')
-                },
-                {
-                    path: '/pages/setting/floor',
-                    name: 'floor',
-                    component: () => import('@/views/pages/setting/FloorList.vue')
+                    path: '/pages/setting/usersetup',
+                    name: 'usersetuptab',
+                    component: () => import('@/views/pages/setting/UserAccessTab.vue')
                 }
             ]
         },
@@ -243,6 +236,16 @@ const router = createRouter({
             path: '/auth/login',
             name: 'login',
             component: () => import('@/views/pages/auth/Login.vue')
+        },
+        {
+            path: '/auth/forgotpassword',
+            name: 'forgotpassword',
+            component: () => import('@/views/pages/auth/ForgotPassword.vue')
+        },
+        {
+            path: '/auth/passwordreset',
+            name: 'passwordreset',
+            component: () => import('@/views/pages/auth/PasswordReset.vue')
         },
         {
             path: '/auth/access',
