@@ -45,7 +45,7 @@ const model = ref([
             },
             {
                 label: 'User Setup',
-                icon: 'pi pi-fw pi-user',
+                icon: 'pi pi-fw pi-cog',
                 to: '/pages/setting/usersetup'
             }
         ]

@@ -42,15 +42,15 @@ const BtnPasswordReset = () => {
 
                     <div>
                         <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
-                        <InputText id="email1" type="text" placeholder="Email address" class="w-full" style="padding: 1rem" v-model="email" />
+                        <InputText id="email1" type="text" placeholder="Email address" class="w-full" style="padding: 1rem" v-model="email" :class="{ 'p-invalid': emailError }" />
                         <small v-if="emailError" class="text-red-500">Email is required</small>
 
                         <label for="password1" class="block text-900 font-medium text-xl mb-2 mt-3">Password</label>
-                        <Password id="password1" v-model="password" placeholder="Password" :toggleMask="true" class="w-full" inputClass="w-full" :inputStyle="{ padding: '1rem' }"></Password>
+                        <Password id="password1" v-model="password" placeholder="Password" :toggleMask="true" class="w-full" inputClass="w-full" :inputStyle="{ padding: '1rem' }" :class="{ 'p-invalid': passwordError }"></Password>
                         <small v-if="passwordError" class="text-red-500">Password is required</small>
 
                         <label for="password2" class="block text-900 font-medium text-xl mb-2 mt-3">Confirm Password</label>
-                        <Password id="password2" v-model="password2" placeholder="Re-Type Password" :toggleMask="true" class="w-full" inputClass="w-full" :inputStyle="{ padding: '1rem' }"></Password>
+                        <Password id="password2" v-model="password2" placeholder="Re-Type Password" :toggleMask="true" class="w-full" inputClass="w-full" :inputStyle="{ padding: '1rem' }" :class="{ 'p-invalid': password2Error }"></Password>
                         <small v-if="password2Error" class="text-red-500">Confirm password is required</small>
                         <small v-if="!password2Error && !passwordsMatch" class="text-red-500">Passwords do not match!</small>
                         <small v-else-if="password && !password2Error && passwordsMatch" class="text-green-500">Passwords matched!</small>

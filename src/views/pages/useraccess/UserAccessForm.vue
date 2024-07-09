@@ -1,9 +1,10 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { agencyCreate } from '@/service/Administration'; // Import agencyCreate function
+import { useToast } from 'primevue/usetoast';
 
 const router = useRouter();
+const toast = useToast();
 
 const userName = ref('');
 const userPassword = ref('');
@@ -28,26 +29,10 @@ const BtnUserAdd = async () => {
         return;
     }
 
-    // Prepare agency data
-    const data = {
-        agency_name: userName.value,
-        agency_address: userPassword.value,
-        agency_phone_no: userRole.value
-    };
-
     try {
-        // Call agencyCreate API function
-        const result = await agencyCreate(data);
-        // Handle API response as needed
-        console.log('Agency added:', result);
-
-        // Optionally, you can reset form fields after successful submission
-        userName.value = '';
-        userPassword.value = '';
-        userRole.value = '';
-
         // Navigate to employerlist route after successful save
         router.push({ name: 'employerlist' });
+        toast.add({ severity: 'success', summary: 'Success', detail: 'User added successfully', life: 3000 });
     } catch (error) {
         console.error('Failed to add user:', error);
         // Optionally, show a toast or error message here

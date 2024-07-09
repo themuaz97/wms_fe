@@ -4,7 +4,17 @@ import { ref, computed } from 'vue';
 import AppConfig from '@/layout/AppConfig.vue';
 
 const { layoutConfig } = useLayout();
+
 const email = ref('');
+
+const emailError = ref(false);
+
+const BtnForgotPassword = () => {
+    emailError.value = !email.value;
+    if (email.value) {
+        alert('Password reset email sent');
+    }
+}
 
 const logoUrl = computed(() => {
     return `/layout/images/${layoutConfig.darkTheme.value ? 'logo-dark' : 'logo-dark'}.svg`;
@@ -13,7 +23,7 @@ const logoUrl = computed(() => {
 
 <template>
     <div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
-        <div class="flex flex-column align-items-center justify-content-centercol-12">
+        <div class="flex flex-column align-items-center justify-content-center col-12">
             <img :src="logoUrl" alt="WMS logo" class="mb-5 w-6rem flex-shrink-0" />
             <div style="border-radius: 56px; padding: 0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)">
                 <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius: 53px">
@@ -24,8 +34,9 @@ const logoUrl = computed(() => {
                     </div>
                     <div>
                         <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
-                        <InputText id="email1" type="text" placeholder="Email address" class="w-full mb-5" style="padding: 1rem" v-model="email" />
-                        <Button label="Continue" class="w-full p-3 text-xl"></Button>
+                        <InputText id="email1" type="text" placeholder="Email address" class="w-full" style="padding: 1rem" v-model="email" :class="{ 'p-invalid': emailError }" />
+                        <small v-if="emailError" class="p-error">Email is required!</small>
+                        <Button label="Continue" class="w-full p-3 text-xl mt-5" @click="BtnForgotPassword"></Button>
                     </div>
                 </div>
             </div>

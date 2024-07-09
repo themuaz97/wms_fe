@@ -18,7 +18,7 @@ const items = ref([
         label: 'Manage Profile',
         icon: 'pi pi-user',
         command: () => {
-            router.push({ name: 'profile' });
+            router.push({ name: 'account' });
         }
     },
     {

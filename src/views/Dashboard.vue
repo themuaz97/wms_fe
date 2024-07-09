@@ -2,10 +2,25 @@
 import { onMounted, reactive, ref, watch } from 'vue';
 import { ProductService } from '@/service/ProductService';
 import { useLayout } from '@/layout/composables/layout';
+import { onUnmounted } from 'vue';
 
 const { isDarkTheme } = useLayout();
 
 const products = ref(null);
+const currentTime = ref('');
+const isMobileView = ref(window.innerWidth < 768);
+
+const updateCurrentTime = () => {
+    const now = new Date();
+    currentTime.value = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+};
+
+let timer = null;
+
+const onResize = () => {
+    isMobileView.value = window.innerWidth < 768;
+};
+
 const lineData = reactive({
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
@@ -36,6 +51,13 @@ const productService = new ProductService();
 
 onMounted(() => {
     productService.getProductsSmall().then((data) => (products.value = data));
+    window.addEventListener('resize', onResize);
+    updateCurrentTime();
+    timer = setInterval(updateCurrentTime, 1000);
+});
+
+onUnmounted(() => {
+    clearInterval(timer);
 });
 
 const formatCurrency = (value) => {
@@ -115,6 +137,63 @@ watch(
 </script>
 
 <template>
+    <div class="card col-12 md:col-6 sm:col-12">
+        <h5>Clock In / Out</h5>
+        <div class="flex align-items-center gap-2">
+            <i class="pi pi-clock"></i>
+            <span>Wednesday, 3 January 2022</span>|
+            <i class="pi pi-map-marker"></i>
+            <span>Petaling Jaya, Selangor</span>
+        </div>
+        <div v-if="!isMobileView" class="flex gap-3 col-12 mt-2 justify-content-center">
+            <div class="clock-in col-6">
+                <span class="text-xl">Clock In</span>
+                <p class="text-3xl font-bold">09:30</p>
+            </div>
+            <div class="clock-out col-6">
+                <span class="text-xl">Clock Out</span>
+                <p class="text-3xl font-bold">-</p>
+            </div>
+        </div>
+        <div class="mt-2">
+            <div class="flex align-items-center flex-column justify-content-center gap-2">
+                <span class="material-symbols-outlined"> restaurant </span>
+                <span>Lunch Break</span>
+            </div>
+            <p class="text-center blink">12.00 - 13.00</p>
+        </div>
+
+        <div class="flex justify-content-center align-items-center col-12 gap-3 p-0">
+            <div class="col-6 text-center">
+                <span class="text-3xl font-bold">{{ currentTime }}</span>
+                <br />
+                <span>Current Time</span>
+            </div>
+            <div class="col-6 text-center">
+                <span class="text-3xl font-bold">-</span>
+                <br />
+                <span>Break Time</span>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="flex justify-content-center gap-4">
+                <Button class="p-button-outlined p-button-text p-button-xl col-4 flex justify-content-center"><span class="material-symbols-outlined mr-2"> logout </span> Clock Out</Button>
+                <Button class="p-button-outlined p-button-text p-button-xl col-4 flex justify-content-center"><span class="material-symbols-outlined mr-2"> local_cafe </span> Start break</Button>
+            </div>
+        </div>
+
+        <div v-if="isMobileView" class="gap-3 col-12 mt-2 justify-content-center">
+            <div class="clock-in col-12 mb-3 bg-red-100">
+                <p class="text-xl">Clock In</p>
+                <p class="text-3xl font-bold">09:30</p>
+            </div>
+            <div class="clock-out col-12 bg-red-300">
+                <p class="text-xl">Clock Out</p>
+                <p class="text-3xl font-bold">-</p>
+            </div>
+        </div>
+    </div>
     <div class="grid">
         <div class="col-12 lg:col-6 xl:col-3">
             <div class="card mb-0">
@@ -355,3 +434,27 @@ watch(
         </div>
     </div>
 </template>
+<style lang="scss" scoped>
+.clock-in, .clock-out {
+    // border: 1px solid #434141;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--surface-border);
+    // box-shadow: -2px 5px 7px rgba(0, 0, 0, 0.02), -2px 5px 7px rgba(0, 0, 0, 0.05), -2px 5px 7px rgba(0, 0, 0, 0.08);
+    padding: 1rem;
+    border-radius: 20px;
+    height: 100%;
+}
+
+.blink {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+</style>

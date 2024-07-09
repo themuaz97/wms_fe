@@ -3,8 +3,10 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
+import { useToast } from 'primevue/usetoast';
 
 const router = useRouter();
+const toast = useToast();
 
 const name = ref('');
 const icNo = ref('');
@@ -25,7 +27,7 @@ const BtnSaveEmployeeProfile = () => {
     phoneNoError.value = !phoneNo.value;
 
     if (name.value && icNo.value && email.value && staffId.value && phoneNo.value) {
-        router.push({ name: 'employeelist' });
+        toast.add({ severity: 'info', summary: 'Info', detail: 'Employee Profile updated', life: 3000 });
     }
 };
 
@@ -65,9 +67,9 @@ const BtnCancelEmployeeProfile = () => {
                             <InputNumber id="TxtEmployeePhoneNo" v-model="phoneNo" :useGrouping="false" placeholder="Enter employee contact number" :class="{ 'p-invalid': phoneNoError }" />
                             <small v-if="phoneNoError" class="p-error">Contact No. is required!</small>
                         </div>
-                        <div class="field col-8 md:col-4 mx-auto flex gap-4">
-                            <Button type="button" label="Save" class="w-full" @click="BtnSaveEmployeeProfile" />
-                            <Button type="button" severity="secondary" label="Cancel" class="w-full" @click="BtnCancelEmployeeProfile" />
+                        <div class="field col-12 md:col-12 mx-auto flex gap-2 button-group">
+                            <Button type="button" label="Save" class="col-3 py-2" @click="BtnSaveEmployeeProfile" />
+                            <Button type="button" severity="secondary" label="Cancel" class="col-3 py-2" @click="BtnCancelEmployeeProfile" />
                         </div>
                     </div>
                 </div>
@@ -78,7 +80,20 @@ const BtnCancelEmployeeProfile = () => {
 
 
 <style scoped>
-.p-invalid {
-    border-color: var(--red-500);
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+@media (max-width: 600px) {
+    .button-group {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .button-group .p-button {
+        width: 100%;
+    }
 }
 </style>

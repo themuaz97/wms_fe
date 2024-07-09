@@ -5,8 +5,10 @@ import Button from 'primevue/button';
 import Dropdown from 'primevue/dropdown';
 import Calendar from 'primevue/calendar';
 import Textarea from 'primevue/textarea';
+import { useToast } from 'primevue/usetoast';
 
 const router = useRouter();
+const toast = useToast();
 
 const floors = ref([{ name: 'Work From Office' }, { name: 'Work From Home' }]);
 const seniorities = ref([{ name: 'Senior' }, { name: 'Elite' }, { name: 'Junior' }, { name: 'New' }]);
@@ -60,10 +62,10 @@ const BtnSaveEmployeeEmployment = () => {
         !positionStatusError.value &&
         !startJoinError.value &&
         !endJoinError.value &&
-        !appraisalError.value &&
+        // !appraisalError.value &&
         !conversionError.value
     ) {
-        router.push({ name: 'employeelist' });
+        toast.add({ severity: 'success', summary: 'Success', detail: 'Employee Employment Added', life: 3000 });
     }
 };
 
@@ -137,9 +139,9 @@ const BtnCancelEmployeeEmployment = () => {
                             <label for="TxtEmployeeRemarks">Remarks</label>
                             <Textarea id="TxtEmployeeRemarks" v-model="remarks" rows="4" placeholder="Remarks" autoResize />
                         </div>
-                        <div class="field col-8 md:col-4 mx-auto flex gap-4">
-                            <Button type="button" label="Save" class="w-full" @click="BtnSaveEmployeeEmployment" />
-                            <Button type="button" severity="secondary" label="Cancel" class="w-full" @click="BtnCancelEmployeeEmployment" />
+                        <div class="field col-12 md:col-12 mx-auto flex gap-2 button-group">
+                            <Button type="button" label="Save" class="col-3 py-2" @click="BtnSaveEmployeeEmployment" />
+                            <Button type="button" severity="secondary" label="Cancel" class="col-3 py-2" @click="BtnCancelEmployeeEmployment" />
                         </div>
                     </div>
                 </div>
@@ -149,8 +151,21 @@ const BtnCancelEmployeeEmployment = () => {
 </template>
 
 <style scoped>
-.p-invalid {
-    border-color: var(--red-500);
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+@media (max-width: 600px) {
+    .button-group {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .button-group .p-button {
+        width: 100%;
+    }
 }
 
 .field .p-inputswitch {

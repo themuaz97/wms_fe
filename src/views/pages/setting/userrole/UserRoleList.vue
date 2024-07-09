@@ -140,8 +140,4 @@ const openEditDialog = (userrole) => {
     </div>
 </template>
 
-<style scoped>
-.p-invalid {
-    border-color: var(--red-500);
-}
-</style>
+<style scoped></style>

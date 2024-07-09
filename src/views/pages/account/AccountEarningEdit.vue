@@ -4,10 +4,8 @@ import { useRouter } from 'vue-router';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
 import Button from 'primevue/button';
-import { useToast } from 'primevue/usetoast';
 
 const router = useRouter();
-const toast = useToast();
 
 const bankName = ref('');
 const accountNo = ref('');
@@ -22,7 +20,7 @@ const BtnSaveEmployeeProfile = () => {
     basicSalaryError.value = !basicSalary.value;
 
     if (bankName.value && accountNo.value && basicSalary.value) {
-        toast.add({ severity: 'success', summary: 'Success', detail: 'Employee Earning added!', life: 3000 });
+        router.push({ name: 'employeelist' });
     }
 };
 
@@ -53,8 +51,8 @@ const BtnCancelEmployeeProfile = () => {
                             <small v-if="basicSalaryError" class="p-error">Basic Salary is required!</small>
                         </div>
                         <div class="field col-12 md:col-12 mx-auto flex gap-2 button-group">
-                            <Button type="button" label="Save" class="col-3 py-2" @click="BtnSaveEmployeeProfile" />
-                            <Button type="button" severity="secondary" label="Cancel" class="col-3 py-2" @click="BtnCancelEmployeeProfile" />
+                            <Button type="button" label="Save" class="py-2 col-3" @click="BtnSaveEmployeeProfile" />
+                            <Button type="button" severity="secondary" label="Cancel" class="py-2 col-3" @click="BtnCancelEmployeeProfile" />
                         </div>
                     </div>
                 </div>

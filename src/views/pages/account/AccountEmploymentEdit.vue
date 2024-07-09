@@ -4,10 +4,8 @@ import { useRouter } from 'vue-router';
 import Button from 'primevue/button';
 import Dropdown from 'primevue/dropdown';
 import Calendar from 'primevue/calendar';
-import { useToast } from 'primevue/usetoast';
 
 const router = useRouter();
-const toast = useToast();
 
 const floors = ref([{ name: 'Work From Office' }, { name: 'Work From Home' }]);
 const seniorities = ref([{ name: 'Senior' }, { name: 'Elite' }, { name: 'Junior' }, { name: 'New' }]);
@@ -61,10 +59,10 @@ const BtnSaveEmployeeEmployment = () => {
         !positionStatusError.value &&
         !startJoinError.value &&
         !endJoinError.value &&
-        // !appraisalError.value &&
+        !appraisalError.value &&
         !conversionError.value
     ) {
-        toast.add({ severity: 'info', summary: 'Info', detail: 'Employee Employment updated', life: 3000 });
+        router.push({ name: 'employeelist' });
     }
 };
 
@@ -139,8 +137,8 @@ const BtnCancelEmployeeEmployment = () => {
                             <Textarea id="TxtEmployeeRemarks" v-model="remarks" rows="4" placeholder="Remarks" autoResize />
                         </div>
                         <div class="field col-12 md:col-12 mx-auto flex gap-2 button-group">
-                            <Button type="button" label="Save" class="col-3 py-2" @click="BtnSaveEmployeeEmployment" />
-                            <Button type="button" severity="secondary" label="Cancel" class="col-3 py-2" @click="BtnCancelEmployeeEmployment" />
+                            <Button type="button" label="Save" class="py-2 col-3" @click="BtnSaveEmployeeEmployment" />
+                            <Button type="button" severity="secondary" label="Cancel" class="py-2 col-3" @click="BtnCancelEmployeeEmployment" />
                         </div>
                     </div>
                 </div>

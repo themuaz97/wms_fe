@@ -12,7 +12,7 @@ import PositionStatus from '@/views/pages/setting/positionstatus/PositionStatusL
             <div class="card">
                 <div class="col-12 md:col-12">
                     <h5>Setup</h5>
-                    <TabView>
+                    <TabView scrollable="true">
                         <TabPanel header="Floor">
                             <Floor />
                         </TabPanel>

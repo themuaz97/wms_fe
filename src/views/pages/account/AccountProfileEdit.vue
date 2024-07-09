@@ -3,10 +3,8 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
-import { useToast } from 'primevue/usetoast';
 
 const router = useRouter();
-const toast = useToast();
 
 const name = ref('');
 const icNo = ref('');
@@ -27,7 +25,7 @@ const BtnSaveEmployeeProfile = () => {
     phoneNoError.value = !phoneNo.value;
 
     if (name.value && icNo.value && email.value && staffId.value && phoneNo.value) {
-        toast.add({ severity: 'success', summary: 'Success', detail: 'Employee profile added', life: 3000 });
+        router.push({ name: 'employeelist' });
     }
 };
 
@@ -69,7 +67,7 @@ const BtnCancelEmployeeProfile = () => {
                         </div>
                         <div class="field col-12 md:col-12 mx-auto flex gap-2 button-group">
                             <Button type="button" label="Save" class="col-3 py-2" @click="BtnSaveEmployeeProfile" />
-                            <Button type="button" severity="secondary" label="Cancel" class="col-3 py-2" @click="BtnCancelEmployeeProfile" />
+                            <Button type="button" severity="secondary" label="Cancel" class="py-2 col-3" @click="BtnCancelEmployeeProfile" />
                         </div>
                     </div>
                 </div>

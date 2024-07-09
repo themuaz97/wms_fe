@@ -1,52 +1,33 @@
-<script>
+<script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
 import Button from 'primevue/button';
+import { useToast } from 'primevue/usetoast';
 
-export default {
-    name: 'EmployeeProfile',
-    components: {
-        InputText,
-        InputNumber,
-        Button
-    },
-    setup() {
-        const router = useRouter();
+const router = useRouter();
+const toast = useToast();
 
-        const bankName = ref('');
-        const accountNo = ref('');
-        const basicSalary = ref(null);
-        const bankNameError = ref(false);
-        const accountNoError = ref(false);
-        const basicSalaryError = ref(false);
+const bankName = ref('');
+const accountNo = ref('');
+const basicSalary = ref(null);
+const bankNameError = ref(false);
+const accountNoError = ref(false);
+const basicSalaryError = ref(false);
 
-        const BtnSaveEmployeeProfile = () => {
-            bankNameError.value = !bankName.value;
-            accountNoError.value = !accountNo.value;
-            basicSalaryError.value = !basicSalary.value;
+const BtnSaveEmployeeProfile = () => {
+    bankNameError.value = !bankName.value;
+    accountNoError.value = !accountNo.value;
+    basicSalaryError.value = !basicSalary.value;
 
-            if (bankName.value && accountNo.value && basicSalary.value) {
-                router.push({ name: 'employeelist' });
-            }
-        };
-
-        const BtnCancelEmployeeProfile = () => {
-            router.push({ name: 'employeelist' });
-        };
-
-        return {
-            bankName,
-            accountNo,
-            basicSalary,
-            bankNameError,
-            accountNoError,
-            basicSalaryError,
-            BtnSaveEmployeeProfile,
-            BtnCancelEmployeeProfile
-        };
+    if (bankName.value && accountNo.value && basicSalary.value) {
+        toast.add({ severity: 'info', summary: 'Info', detail: 'Employee Earning updated', life: 3000 });
     }
+};
+
+const BtnCancelEmployeeProfile = () => {
+    router.push({ name: 'employeelist' });
 };
 </script>
 
@@ -71,9 +52,9 @@ export default {
                             <InputNumber id="TxtBasicSalary" v-model="basicSalary" :useGrouping="false" placeholder="Enter basic salary" :class="{ 'p-invalid': basicSalaryError }" />
                             <small v-if="basicSalaryError" class="p-error">Basic Salary is required!</small>
                         </div>
-                        <div class="field col-8 md:col-4 mx-auto flex gap-4">
-                            <Button type="button" label="Save" class="w-full" @click="BtnSaveEmployeeProfile" />
-                            <Button type="button" severity="secondary" label="Cancel" class="w-full" @click="BtnCancelEmployeeProfile" />
+                        <div class="field col-12 md:col-12 mx-auto flex gap-2 button-group">
+                            <Button type="button" label="Save" class="col-3 py-2" @click="BtnSaveEmployeeProfile" />
+                            <Button type="button" severity="secondary" label="Cancel" class="col-3 py-2" @click="BtnCancelEmployeeProfile" />
                         </div>
                     </div>
                 </div>
@@ -83,7 +64,20 @@ export default {
 </template>
 
 <style scoped>
-.p-invalid {
-    border-color: var(--red-500);
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+@media (max-width: 600px) {
+    .button-group {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .button-group .p-button {
+        width: 100%;
+    }
 }
 </style>
