@@ -30,7 +30,7 @@ const BtnSaveEmployeeProfile = () => {
 };
 
 const BtnCancelEmployeeProfile = () => {
-    router.push({ name: 'employeelist' });
+    router.push({ name: 'dashboard' });
 };
 </script>
 

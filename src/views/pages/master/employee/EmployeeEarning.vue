@@ -49,7 +49,7 @@ const BtnCancelEmployeeProfile = () => {
                         </div>
                         <div class="field col-12 md:col-12">
                             <label for="TxtBasicSalary">Basic Salary</label>
-                            <InputNumber id="TxtBasicSalary" v-model="basicSalary" :useGrouping="false" placeholder="Enter basic salary" :class="{ 'p-invalid': basicSalaryError }" />
+                            <InputNumber id="TxtBasicSalary" v-model="basicSalary" :minFractionDigits="2" :useGrouping="false" placeholder="Enter basic salary" :class="{ 'p-invalid': basicSalaryError }" />
                             <small v-if="basicSalaryError" class="p-error">Basic Salary is required!</small>
                         </div>
                         <div class="field col-12 md:col-12 mx-auto flex gap-2 button-group">

@@ -20,7 +20,7 @@ const BtnSaveEmployeeProfile = () => {
     basicSalaryError.value = !basicSalary.value;
 
     if (bankName.value && accountNo.value && basicSalary.value) {
-        router.push({ name: 'employeelist' });
+        router.push({ name: 'dashboard' });
     }
 };
 
